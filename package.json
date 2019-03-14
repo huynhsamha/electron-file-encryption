@@ -14,5 +14,9 @@
   ],
   "devDependencies": {
     "electron": "^4.0.7"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "semantic-ui-css": "^2.4.1"
   }
 }
