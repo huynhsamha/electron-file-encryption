@@ -9,3 +9,9 @@ body {
     justify-content: center !important;
     align-items: center !important;
 }
+
+.app-btn-back {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+}

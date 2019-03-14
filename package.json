@@ -2,11 +2,12 @@
   "name": "electron-file-encryption",
   "version": "1.0.0",
   "description": "File Encryption Cross Platform Desktop App using Electron Framework",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "repository": "https://github.com/huynhsamha/electron-file-encryption",
+  "license": "huynhsamha",
   "keywords": [
     "electron",
     "encryption",
