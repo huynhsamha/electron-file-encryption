@@ -11,6 +11,7 @@ require('semantic-ui-css/semantic.min.js');
 
 $('.ui.dropdown').dropdown()
 $('.ui.checkbox').checkbox()
+$('.menu .item').tab()
 
 function showLoading(){
     $('#app-loading').dimmer('show')

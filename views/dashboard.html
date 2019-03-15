@@ -14,7 +14,7 @@
 
   <div class="ui app-container">
     <!-- Menu Sidebar -->
-    <div class="ui vertical menu inverted app-sidebar">
+    <div class="ui vertical fixed left menu inverted app-sidebar">
       <div class="item">
         <div class="ui icon input">
           <input type="text" placeholder="Search...">
@@ -23,29 +23,30 @@
       </div>
 
       <div class="item">
-        <img class="ui circular middle aligned image" src="../assets/img/Panda-icon.png" width="50" style="border: 1.5px solid white">
+        <img class="ui circular middle aligned image" src="../assets/img/Panda-icon.png" width="50"
+          style="border: 1.5px solid white">
         <span style="margin-left: 8px; font-size: 18px; font-weight: 800">
           Your Name
         </span>
       </div>
 
-      <a class="item active">
+      <a class="item active" data-tab="encrypt">
         <i class="lock icon"></i> Encryption
       </a>
-      <a class="item">
+      <a class="item" data-tab="decrypt">
         <i class="unlock alternate icon"></i> Decryption
       </a>
-      <a class="item">
+      <a class="item" data-tab="files">
         <i class="desktop icon"></i> File Manager
       </a>
-      <a class="item">
+      <a class="item" data-tab="notis">
         <i class="bullhorn icon"></i> Notifications
       </a>
-      <a class="item">
+      <a class="item" data-tab="exts">
         <i class="puzzle piece icon"></i> Extensions
       </a>
 
-      <a class="item">
+      <a class="item" data-tab="share">
         <i class="share square outline icon"></i> Share Now
       </a>
       <div class="ui dropdown item">
@@ -69,6 +70,27 @@
       </div>
     </div>
 
+    <!-- Content -->
+    <div class="app-content">
+      <div class="ui right tab segment active no-mt" data-tab="encrypt">
+        Encrypt
+      </div>
+      <div class="ui right tab segment no-mt" data-tab="decrypt">
+        Decrypt
+      </div>
+      <div class="ui right tab segment no-mt" data-tab="files">
+        File Manager
+      </div>
+      <div class="ui right tab segment no-mt" data-tab="notis">
+        Notifications
+      </div>
+      <div class="ui right tab segment no-mt" data-tab="exts">
+        Extensions
+      </div>
+      <div class="ui right tab segment no-mt" data-tab="share">
+        Sharing
+      </div>
+    </div>
 
   </div>
 

@@ -6,3 +6,12 @@
     border-radius: 0px !important;
     height: 100% !important;
 }
+
+.app-content {
+    /* 15rem is width of menu sidebar */
+    margin-left: 15rem;
+}
+
+.no-mt {
+    margin-top: 0px !important;
+}
