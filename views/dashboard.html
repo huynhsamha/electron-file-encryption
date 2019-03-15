@@ -56,6 +56,11 @@
           <a class="item" data-tab="profile"><i class="edit icon"></i> Edit Profile</a>
           <a class="item" data-tab="lang"><i class="globe icon"></i> Choose Language</a>
           <a class="item" data-tab="acc"><i class="settings icon"></i> Account Settings</a>
+          <div class="divider"></div>
+          <div class="item" id="btn-logout"
+            style="background-color: rgb(218, 3, 3) !important; color: white !important">
+            <i class="sign out alternate icon"></i> Logout
+          </div>
         </div>
       </div>
       <div class="item">
@@ -186,6 +191,21 @@
 
   </div>
 
+  <!-- Modal logout -->
+  <div class="ui mini modal" id="modal-logout">
+    <i class="close icon"></i>
+    <div class="header">Warning</div>
+    <div class="content" style="font-size: 16px">
+      <p>Do you want to logout?</p>
+    </div>
+    <div class="actions">
+      <div class="ui button cancel green">No</div>
+      <div class="ui red ok button">Sign Me Out</div>
+    </div>
+  </div>
+
+
+  <!-- Loading -->
   <div class="ui page dimmer" id="app-loading">
     <div class="content">
       <div class="ui active dimmer">
@@ -193,7 +213,6 @@
       </div>
     </div>
   </div>
-
 
   <script>
     require('../js/dashboard.js')

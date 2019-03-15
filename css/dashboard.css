@@ -15,3 +15,7 @@
 .no-mt {
     margin-top: 0px !important;
 }
+
+.app-content > .segment {
+    border-radius: 0px !important;
+}

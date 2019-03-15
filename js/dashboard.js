@@ -13,10 +13,29 @@ $('.ui.dropdown').dropdown()
 $('.ui.checkbox').checkbox()
 $('.menu .item').tab()
 
-function showLoading(){
+$('#modal-logout').modal({
+    onApprove: logout
+})
+
+$('#btn-logout').click(() => {
+    $('#modal-logout').modal('show')
+})
+
+function logout() {
+    $('#modal-logout').modal('hide')
+    setTimeout(() => {
+        showLoading();
+        setTimeout(() => {
+            hideLoading();
+            window.location.href = "../views/index.html"
+        }, 800)
+    })
+}
+
+function showLoading() {
     $('#app-loading').dimmer('show')
 }
 
-function hideLoading(){
+function hideLoading() {
     $('#app-loading').dimmer('hide')
 }
