@@ -13,6 +13,7 @@
 <body>
 
   <div class="ui app-container">
+
     <!-- Menu Sidebar -->
     <div class="ui vertical fixed left menu inverted app-sidebar">
       <div class="item">
@@ -30,7 +31,8 @@
         </span>
       </div>
 
-      <a class="item active" data-tab="encrypt">
+      <!-- add class `active` to default tab -->
+      <a class="item" data-tab="encrypt">
         <i class="lock icon"></i> Encryption
       </a>
       <a class="item" data-tab="decrypt">
@@ -74,15 +76,70 @@
         </div>
       </div>
     </div>
+    <!-- End app-sidebar -->
 
 
 
     <!-- Content -->
     <div class="app-content">
 
+      <!-- Welcome page - active to default tab -->
+      <div class="ui right tab segment active no-mt welcome-page">
+        <h2 class="ui center aligned icon header">
+          <i class="fort awesome icon" style="margin-bottom: 20px !important"></i>
+          Welcome to File Encryption
+        </h2>
+
+        <div class="ui three steps first">
+          <div class="step">
+            <i class="lock red icon"></i>
+            <div class="content">
+              <div class="title">Encryption</div>
+              <div class="description"></div>
+            </div>
+          </div>
+          <div class="step">
+            <i class="unlock orange alternate icon"></i>
+            <div class="content">
+              <div class="title">Decryption</div>
+              <div class="description"></div>
+            </div>
+          </div>
+          <div class="step">
+            <i class="desktop yellow icon"></i>
+            <div class="content">
+              <div class="title">File Manager</div>
+              <div class="description"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ui three steps">
+          <div class="step">
+            <i class="bullhorn violet icon"></i>
+            <div class="content">
+              <div class="title">Notifications</div>
+              <div class="description"></div>
+            </div>
+          </div>
+          <div class="step">
+            <i class="puzzle piece purple icon"></i>
+            <div class="content">
+              <div class="title">Extensions</div>
+              <div class="description"></div>
+            </div>
+          </div>
+          <div class="step">
+            <i class="share square outline pink icon"></i>
+            <div class="content">
+              <div class="title">Share Now</div>
+              <div class="description"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Encryption -->
-      <div class="ui right tab segment active no-mt" data-tab="encrypt">
+      <div class="ui right tab segment no-mt" data-tab="encrypt">
         <h2 class="ui header">
           <i class="lock icon"></i>
           <div class="content">
@@ -108,7 +165,7 @@
       <!-- File Manager -->
       <div class="ui right tab segment no-mt" data-tab="files">
         <h2 class="ui header">
-          <i class="bullhorn icon"></i>
+          <i class="desktop icon"></i>
           <div class="content">
             File Manager
             <div class="sub header">Manage your encrypted files and keys</div>
@@ -187,9 +244,14 @@
           </div>
         </h2>
       </div>
+
+
     </div>
+    <!-- End app-content -->
 
   </div>
+  <!-- End app-container -->
+
 
   <!-- Modal logout -->
   <div class="ui mini modal" id="modal-logout">

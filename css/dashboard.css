@@ -10,6 +10,8 @@
 .app-content {
     /* 15rem is width of menu sidebar */
     margin-left: 15rem;
+    height: 100%;
+    overflow: auto;
 }
 
 .no-mt {
@@ -18,4 +20,16 @@
 
 .app-content > .segment {
     border-radius: 0px !important;
+}
+
+
+.segment.welcome-page  {
+    padding: 20px !important;
+    margin: 0px !important;
+    margin-top: 70px !important;
+    outline: none !important;
+    border: none !important;
+}
+.segment.welcome-page .steps.first {
+    margin-top: 40px !important;
 }
