@@ -9,6 +9,8 @@ window.$ = window.jQuery = window.jquery = $;
  */
 require('semantic-ui-css/semantic.min.js');
 
+$('.ui.dropdown').dropdown()
+$('.ui.checkbox').checkbox()
 
 function showLoading(){
     $('#app-loading').dimmer('show')

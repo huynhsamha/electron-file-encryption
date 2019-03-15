@@ -1,0 +1,8 @@
+.app-container {
+    height: 100% !important;
+}
+
+.app-sidebar {
+    border-radius: 0px !important;
+    height: 100% !important;
+}
