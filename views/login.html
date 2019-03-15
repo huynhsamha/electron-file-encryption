@@ -6,6 +6,7 @@
   <title>File Encryption | Login</title>
 
   <link rel="stylesheet" href="../node_modules/semantic-ui-css/semantic.min.css">
+  <link rel="stylesheet" href="../css/_common.css">
   <link rel="stylesheet" href="../css/login.css">
 </head>
 
@@ -62,6 +63,15 @@
     </div>
   </div>
   </div>
+
+  <div class="ui page dimmer" id="app-loading">
+    <div class="content">
+      <div class="ui active dimmer">
+        <div class="ui indeterminate text loader">Loading</div>
+      </div>
+    </div>
+  </div>
+
 
   <script>
     require('../js/login.js')

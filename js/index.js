@@ -19,4 +19,5 @@ $('#btn-to-signup').click(() => {
 })
 
 $('#btn-start').click(() => {
+    window.location.href = "../views/dashboard.html"
 })

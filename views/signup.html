@@ -6,6 +6,7 @@
   <title>File Encryption | Sign Up</title>
 
   <link rel="stylesheet" href="../node_modules/semantic-ui-css/semantic.min.css">
+  <link rel="stylesheet" href="../css/_common.css">
   <link rel="stylesheet" href="../css/signup.css">
 </head>
 
@@ -308,12 +309,20 @@
             <label>I agree to the terms and conditions</label>
           </div>
         </div>
-        <div class="fluid ui button orange" tabindex="0">Sign Up Now</div>
+        <div class="fluid ui button orange" tabindex="0" id="btn-signup">Sign Up Now</div>
       </form>
 
     </div>
 
 
+  </div>
+
+  <div class="ui page dimmer" id="app-loading">
+    <div class="content">
+      <div class="ui active dimmer">
+        <div class="ui indeterminate text loader">Loading</div>
+      </div>
+    </div>
   </div>
 
   <script>

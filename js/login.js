@@ -20,5 +20,17 @@ $('#btn-to-form-signup').click(() => {
 })
 
 $('#btn-login').click(() => {
-    console.log('start login');
+    showLoading();
+    setTimeout(() => {
+        hideLoading();
+        window.location.href = "../views/dashboard.html"
+    }, 800);
 })
+
+function showLoading(){
+    $('#app-loading').dimmer('show')
+}
+
+function hideLoading(){
+    $('#app-loading').dimmer('hide')
+}

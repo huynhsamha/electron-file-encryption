@@ -9,21 +9,6 @@ window.$ = window.jQuery = window.jquery = $;
  */
 require('semantic-ui-css/semantic.min.js');
 
-$('.ui.dropdown').dropdown()
-$('.ui.checkbox').checkbox()
-
-
-$('#btn-back').click(() => {
-    window.history.back()
-})
-
-$('#btn-signup').click(() => {
-    showLoading();
-    setTimeout(() => {
-        hideLoading();
-        window.location.href = "../views/login.html"
-    }, 800);
-})
 
 function showLoading(){
     $('#app-loading').dimmer('show')
