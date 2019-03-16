@@ -147,6 +147,28 @@
             <div class="sub header">Encrypt your files or folders with secret key.</div>
           </div>
         </h2>
+
+        <div class="ui action large input">
+          <select class="ui compact selection dropdown min-width-180" id="select-raw-file">
+            <option value="one" selected>One File</option>
+            <option value="multiple">Multiple Files</option>
+            <option value="folder">One Folder</option>
+          </select>
+          <label for="raw-file" class="ui icon red large button">
+            <i class="upload icon"></i><span class="mr-1"></span>
+            Choose file(s)
+          </label>
+          <!-- One File -->
+          <input type="file" id="raw-file" style="display: none">
+          <!-- Multiple Files -->
+          <!-- <input type="file" id="raw-file" multiple style="display: none"> -->
+          <!-- One Folder -->
+          <!-- <input type="file" id="raw-file" directory webkitdirectory mozdirectory style="display: none"> -->
+        </div>
+
+        <!-- List files -->
+        <div class="ui list" id="list-files">
+        </div>
       </div>
 
 

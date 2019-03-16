@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "jquery": "^3.3.1",
-    "semantic-ui-css": "^2.4.1"
+    "semantic-ui-css": "^2.4.1",
+    "uuid": "^3.3.2"
   }
 }

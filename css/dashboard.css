@@ -33,3 +33,8 @@
 .segment.welcome-page .steps.first {
     margin-top: 40px !important;
 }
+
+.tab.segment > h2.header {
+    padding-bottom: 15px !important;
+    border-bottom: 0.8px solid #f0f0f0;
+}
