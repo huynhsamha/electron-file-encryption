@@ -61,6 +61,19 @@ $('#select-raw-file').on('change', function () {
     }
 })
 
+const $btnVisible = $('#btn-visible');
+const $inputEncryptPass = $('#inp-enc-pass');
+$btnVisible.click(() => {
+    const $ic = $btnVisible.find('i');
+    if ($ic.hasClass('slash')) {
+        $ic.removeClass('slash')
+        $inputEncryptPass.attr('type', 'password');
+    } else {
+        $ic.addClass('slash')
+        $inputEncryptPass.attr('type', 'input');
+    }
+})
+
 function logout() {
     $('#modal-logout').modal('hide')
     setTimeout(() => {

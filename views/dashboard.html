@@ -148,29 +148,110 @@
           </div>
         </h2>
 
-        <div class="ui action large input">
-          <select class="ui compact selection dropdown min-width-180" id="select-raw-file">
-            <option value="one" selected>One File</option>
-            <option value="multiple">Multiple Files</option>
-            <option value="folder">One Folder</option>
-          </select>
-          <label for="raw-file" class="ui icon red large button">
-            <i class="upload icon"></i><span class="mr-1"></span>
-            Choose file(s)
-          </label>
-          <!-- One File -->
-          <input type="file" id="raw-file" style="display: none">
-          <!-- Multiple Files -->
-          <!-- <input type="file" id="raw-file" multiple style="display: none"> -->
-          <!-- One Folder -->
-          <!-- <input type="file" id="raw-file" directory webkitdirectory mozdirectory style="display: none"> -->
-        </div>
+        <div class="ui grid">
+          <!-- Left -->
+          <div class="nine wide column">
+            <!-- Choose files -->
+            <h3 class="ui header mt-1">Choose files</h3>
+            <div class="ui action fluid input">
+              <select class="ui compact selection dropdown min-width-180" id="select-raw-file">
+                <option value="one" selected>One File</option>
+                <option value="multiple">Multiple Files</option>
+                <option value="folder">One Folder</option>
+              </select>
+              <label for="raw-file" class="ui icon red button">
+                <i class="upload icon"></i><span class="mr-1"></span>
+                Browse
+              </label>
+              <!-- One File -->
+              <input type="file" id="raw-file" style="display: none">
+              <!-- Multiple Files -->
+              <!-- <input type="file" id="raw-file" multiple style="display: none"> -->
+              <!-- One Folder -->
+              <!-- <input type="file" id="raw-file" directory webkitdirectory mozdirectory style="display: none"> -->
+            </div>
 
-        <!-- List files -->
-        <div class="ui list" id="list-files">
+
+
+            <!-- Algorithms -->
+            <h3 class="ui header mt-3">Choose algorithm</h3>
+            <div class="ui floating fluid dropdown labeled icon red basic button">
+              <i class="filter icon"></i>
+              <span class="text">Select one</span>
+              <div class="menu">
+                <div class="ui icon search input">
+                  <i class="search icon"></i>
+                  <input type="text" placeholder="Search algorithm...">
+                </div>
+                <div class="divider"></div>
+                <div class="header">
+                  <i class="tags icon"></i>
+                  Symmetric Cryptography
+                </div>
+                <div class="scrolling menu">
+                  <div class="item">
+                    <div class="ui red empty circular label"></div>
+                    AES (Advanced Encryption Standard)
+                  </div>
+                  <div class="item">
+                    <div class="ui blue empty circular label"></div>
+                    DES (Data Encryption Standard)
+                  </div>
+                  <div class="item">
+                    <div class="ui green empty circular label"></div>
+                    RC4 (Rivest Cipher 4)
+                  </div>
+                </div>
+                <div class="header">
+                  <i class="tags icon"></i>
+                  Asymmetric Cryptography
+                </div>
+                <div class="scrolling menu">
+                  <div class="item">
+                    <div class="ui orange empty circular label"></div>
+                    RSA (Rivest–Shamir–Adleman)
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <h3 class="ui header mt-3">Choose password</h3>
+            <div class="ui left icon fluid action input">
+              <input type="password" placeholder="Password..." id="inp-enc-pass">
+              <i class="key icon"></i>
+              <button class="ui icon button" id="btn-visible">
+                <i class="eye icon"></i>
+              </button>
+            </div>
+
+            <!-- Options -->
+            <h3 class="ui header mt-3">Options</h3>
+            <div class="field">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" name="gift" tabindex="0" class="hidden">
+                <label>Store the key file</label>
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="ui fluid buttons mt-4">
+              <button class="ui orange button">
+                View key
+              </button>
+              <div class="or"></div>
+              <button class="ui green button">Encrypt</button>
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div class="three wide column">
+            <!-- List files -->
+            <div class="ui list mt-1" id="list-files">
+            </div>
+          </div>
         </div>
       </div>
-
 
       <!-- Decryption -->
       <div class="ui right tab segment no-mt" data-tab="decrypt">
@@ -183,7 +264,6 @@
         </h2>
       </div>
 
-
       <!-- File Manager -->
       <div class="ui right tab segment no-mt" data-tab="files">
         <h2 class="ui header">
@@ -194,7 +274,6 @@
           </div>
         </h2>
       </div>
-
 
       <!-- Notification -->
       <div class="ui right tab segment no-mt" data-tab="notis">
