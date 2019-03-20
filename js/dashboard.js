@@ -19,11 +19,11 @@ const treeView = new TreeView('#list-files')
 /**
  * Symmetric module
  */
-
 const symmetric = require('../utils/symmetric/symmetric');
 const algorithms = require('../utils/symmetric/algorithms')
 
-const { dialog } = require('electron')
+const path = require('path');
+
 
 $('#btn-logout').click(() => {
     showConfirm('Warning', 'Do you want to logout?', logout);
@@ -52,6 +52,12 @@ $('#raw-file').on('change', function () {
             treeView.addFile(file)
         }
     }
+})
+
+$('#out-dir').on('change', function () {
+    const files = this.files;
+    console.log(files);
+    $('#out-dir-path').val(files[0].path)
 })
 
 $('#select-raw-file').on('change', function () {
@@ -85,13 +91,13 @@ $('#btnEncrypt').click(() => {
     if (!algo || algo == '') {
         return showAlert('Error', 'Algorithm is required')
     }
-    
+
     const password = $('#inp-enc-pass').val();
     console.log(password);
     if (!password || password == '' || password.length < 5) {
         return showAlert('Error', 'Passphrase is at least 5 characters')
     }
-    
+
     const files = treeView.files;
     console.log(files);
     if (files.length == 0) {
@@ -99,8 +105,9 @@ $('#btnEncrypt').click(() => {
     }
 
     files.forEach(file => {
-        const outputPath = file.path + '.enc'
-        const keyFilePath = file.path + '.key'
+        const outputDir = $('#out-dir-path').val();
+        const outputPath = path.join(outputDir, file.name + '.enc')
+        const keyFilePath = path.join(outputDir, file.name + '.key')
         symmetric.encrypt(file.path, password, algorithms[algo], outputPath, keyFilePath).then(() => {
             showAlert('Success', 'File is encrypted');
         }).catch(err => {
@@ -115,7 +122,7 @@ function showAlert(title = 'Alert', message = '') {
     $('#modal-alert').modal('show')
 }
 
-function showConfirm(title = 'Confirm', message = '', onOK = () => {}) {
+function showConfirm(title = 'Confirm', message = '', onOK = () => { }) {
     $('#confirm-title').text(title);
     $('#confirm-message').text(message);
     $('#modal-confirm').modal({

@@ -225,6 +225,18 @@
               </button>
             </div>
 
+            <!-- Output directory -->
+            <h3 class="ui header mt-3">Select output directory</h3>
+            <div class="ui action fluid input">
+              <input type="text" id="out-dir-path" readonly>
+              <label for="out-dir" class="ui icon blue button">
+                <i class="folder open icon"></i><span class="mr-1"></span>
+                Browse
+              </label>
+              <!-- One Folder -->
+              <input type="file" id="out-dir" directory webkitdirectory mozdirectory style="display: none">
+            </div>
+
             <!-- Options -->
             <h3 class="ui header mt-3">Options</h3>
             <div class="field">
