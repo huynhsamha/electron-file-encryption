@@ -46,6 +46,7 @@ class TreeView {
 
     addFile(file) {
         const item = new File(file);
+        this.files.push(item)
         $(this.id).append(this.makeItem(item))
     }
 

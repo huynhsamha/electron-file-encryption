@@ -16,12 +16,17 @@ $('.menu .item').tab()
 const { TreeView } = require('../utils/treeview')
 const treeView = new TreeView('#list-files')
 
-$('#modal-logout').modal({
-    onApprove: logout
-})
+/**
+ * Symmetric module
+ */
+
+const symmetric = require('../utils/symmetric/symmetric');
+const algorithms = require('../utils/symmetric/algorithms')
+
+const { dialog } = require('electron')
 
 $('#btn-logout').click(() => {
-    $('#modal-logout').modal('show')
+    showConfirm('Warning', 'Do you want to logout?', logout);
 })
 
 $('#raw-file').on('change', function () {
@@ -74,8 +79,53 @@ $btnVisible.click(() => {
     }
 })
 
+$('#btnEncrypt').click(() => {
+    const algo = $('#dropdown-algo').find('.item.selected').attr('data-algo');
+    console.log(algo);
+    if (!algo || algo == '') {
+        return showAlert('Error', 'Algorithm is required')
+    }
+    
+    const password = $('#inp-enc-pass').val();
+    console.log(password);
+    if (!password || password == '' || password.length < 5) {
+        return showAlert('Error', 'Passphrase is at least 5 characters')
+    }
+    
+    const files = treeView.files;
+    console.log(files);
+    if (files.length == 0) {
+        return showAlert('Error', 'Please select at least one file')
+    }
+
+    files.forEach(file => {
+        const outputPath = file.path + '.enc'
+        const keyFilePath = file.path + '.key'
+        symmetric.encrypt(file.path, password, algorithms[algo], outputPath, keyFilePath).then(() => {
+            showAlert('Success', 'File is encrypted');
+        }).catch(err => {
+            console.log(err);
+        })
+    })
+})
+
+function showAlert(title = 'Alert', message = '') {
+    $('#alert-title').text(title);
+    $('#alert-message').text(message);
+    $('#modal-alert').modal('show')
+}
+
+function showConfirm(title = 'Confirm', message = '', onOK = () => {}) {
+    $('#confirm-title').text(title);
+    $('#confirm-message').text(message);
+    $('#modal-confirm').modal({
+        onApprove: onOK
+    })
+    $('#modal-confirm').modal('show');
+}
+
 function logout() {
-    $('#modal-logout').modal('hide')
+    $('#modal-confirm').modal('hide')
     setTimeout(() => {
         showLoading();
         setTimeout(() => {
