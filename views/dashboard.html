@@ -218,7 +218,7 @@
             <!-- Password -->
             <h3 class="ui header mt-3">Choose passphrase</h3>
             <div class="ui left icon fluid action input">
-              <input type="password" placeholder="Password..." id="inp-enc-pass">
+              <input type="password" placeholder="Your passphrase..." id="inp-enc-pass">
               <i class="key icon"></i>
               <button class="ui icon button" id="btn-visible">
                 <i class="eye icon"></i>
@@ -255,9 +255,10 @@
               <button class="ui green button" id="btnEncrypt">Encrypt</button>
             </div>
           </div>
+          <!-- End Left -->
 
           <!-- Right -->
-          <div class="three wide column">
+          <div class="seven wide column">
             <!-- List files -->
             <div class="ui list mt-1" id="list-files">
             </div>
@@ -274,6 +275,93 @@
             <div class="sub header">Decrypt your files or folders with secret key.</div>
           </div>
         </h2>
+
+        <div class="ui grid">
+          <!-- Left -->
+          <div class="eight wide column">
+            <!-- Encrypted File -->
+            <h3 class="ui header mt-1">Choose encrypted file</h3>
+            <div class="ui action fluid input">
+              <input type="text" id="out-dir-decrypt-path" readonly>
+              <label for="encrypted-file" class="ui icon red button">
+                <i class="upload icon"></i><span class="mr-1"></span>
+                Browse
+              </label>
+              <!-- One Folder -->
+              <input type="file" id="encrypted-file" directory webkitdirectory mozdirectory style="display: none">
+            </div>
+          </div>
+          <!-- End Left -->
+
+          <!-- Right -->
+          <div class="eight wide column">
+            <!-- Output directory -->
+            <h3 class="ui header mt-1">Select output directory</h3>
+            <div class="ui action fluid input">
+              <input type="text" id="out-dir-decrypt-path" readonly>
+              <label for="out-dir-decrypt" class="ui icon blue button">
+                <i class="folder open icon"></i><span class="mr-1"></span>
+                Browse
+              </label>
+              <!-- One File -->
+              <input type="file" id="out-dir-decrypt" style="display: none">
+            </div>
+          </div>
+          <!-- End Right -->
+        </div>
+        <!-- End Grid -->
+
+        <h3 class="ui header mt-2">Decyption</h3>
+        <div class="ui placeholder segment">
+          <div class="ui two column stackable center aligned grid">
+            <div class="ui vertical divider">Or</div>
+            <div class="middle aligned row">
+              <!-- Left - Use Password -->
+              <div class="column">
+                <div class="ui icon header">
+                  <i class="text width icon pink"></i>
+                  Use Passphrase
+                </div>
+                <div class="ui left icon fluid action input">
+                  <input type="password" placeholder="Your passphrase..." id="inp-decrypt-pass">
+                  <i class="key icon"></i>
+                  <button class="ui icon button" id="btn-visible-decrypt">
+                    <i class="eye icon"></i>
+                  </button>
+                </div>
+
+                <div class="ui animated pink fade button mt-2" tabindex="0" id="btn-start">
+                  <div class="visible content">Decrypt with Passphrase</div>
+                  <div class="hidden content">
+                    <i class="recycle arrow icon"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Right - Use Key File -->
+              <div class="column">
+                <div class="ui icon header">
+                  <i class="key icon orange"></i>
+                  Use Key File
+                </div>
+                <div class="ui action fluid input">
+                  <input type="text" id="out-dir-decrypt-path" readonly>
+                  <label for="key-file" class="ui icon orange button">
+                    <i class="hand point left icon"></i><span class="mr-1"></span>
+                  </label>
+                  <!-- One File -->
+                  <input type="file" id="key-file" style="display: none">
+                </div>
+                <div class="ui animated orange fade button mt-2" tabindex="0" id="btn-start">
+                  <div class="visible content">Decrypt with Key File</div>
+                  <div class="hidden content">
+                    <i class="recycle icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- File Manager -->
