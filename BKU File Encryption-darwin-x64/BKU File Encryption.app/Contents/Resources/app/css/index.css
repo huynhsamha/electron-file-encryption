@@ -1,0 +1,11 @@
+body {
+    background-color: #082236;
+}
+
+.app-container {
+    height: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}

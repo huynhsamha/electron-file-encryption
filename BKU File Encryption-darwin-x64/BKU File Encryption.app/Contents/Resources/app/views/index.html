@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>File Encryption</title>
+
+  <link rel="stylesheet" href="../node_modules/semantic-ui-css/semantic.min.css">
+  <link rel="stylesheet" href="../css/_common.css">
+  <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+
+  <div class="ui container app-container ">
+    <div class="ui placeholder segment">
+      <div class="ui two column stackable center aligned grid">
+        <div class="ui vertical divider">Or</div>
+        <div class="middle aligned row">
+          <div class="column">
+            <div class="ui icon header">
+              <i class="folder open icon red"></i>
+              Local Usage
+            </div>
+            <div class="ui animated red fade button" tabindex="0" id="btn-start">
+              <div class="visible content">Start Now</div>
+              <div class="hidden content">
+                <i class="play arrow icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="ui icon header">
+              <i class="sync alternate icon orange"></i>
+              Synchronize your data
+            </div>
+            <div class="ui buttons">
+              <div class="ui animated green button" tabindex="0" id="btn-to-login">
+                <div class="visible content">Login</div>
+                <div class="hidden content">
+                  <i class="sign in alternate icon"></i>
+                </div>
+              </div>
+              <div class="or"></div>
+              <div class="ui vertical blue animated button" tabindex="0" id="btn-to-signup">
+                <div class="visible content">Sign Up</div>
+                <div class="hidden content">
+                  <i class="cloud upload icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    require('../js/index.js')
+  </script>
+</body>
+
+</html>

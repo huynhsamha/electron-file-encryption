@@ -1,0 +1,4 @@
+node_modules
+
+test/encrypted
+test/decrypted

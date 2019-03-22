@@ -1,0 +1,85 @@
+@import '../../styles/core.scss';
+
+.Contact {
+	padding-top: 40px;
+	min-height: calc(100vh - #{$height-header} - #{$height-footer});
+	ul {
+		list-style: none;
+		padding: inherit;
+		li {
+			margin: 12px;
+			span {
+				border-radius: 50%;
+				width: 48px;
+				height: 48px;
+				display: inline-block;
+				position: relative;
+				cursor: pointer;
+				transition-duration: 0.4s;
+				color: white;
+				&:hover {
+					transform: rotate(360deg);
+					opacity: 0.8;
+				}
+				&.ic-facebook  {
+					background-color: $color-facebook;
+					border: 2px solid $color-facebook;
+				}
+				&.ic-google  {
+					background-color: $color-google;
+					border: 2px solid $color-google;
+				}
+				&.ic-github  {
+					background-color: $color-github;
+					border: 2px solid $color-github;
+				}
+				&.ic-linkedin  {
+					background-color: $color-linkedin;
+					border: 2px solid $color-linkedin;
+				}
+				&.ic-stack-overflow  {
+					background-color: $color-stack-overflow;
+					border: 2px solid $color-stack-overflow;
+				}
+				&.ic-twitter  {
+					background-color: $color-twitter;
+					border: 2px solid $color-twitter;
+				}
+				a {
+					display: block;
+					width: 100%;
+					height: 100%;
+					color: inherit;
+				}
+				i {
+					font-size: 1.3em;
+					position: absolute;
+					top: 50%; left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
+		}
+	}
+}
+
+
+@media only screen and (max-width: 576px) {
+	.Contact {
+		ul {
+			li {
+				span {
+					width: 35px;
+					height: 35px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	.Contact {
+		ul {
+			display: none !important;
+		}
+	}
+}
