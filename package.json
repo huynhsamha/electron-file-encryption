@@ -17,6 +17,7 @@
     "electron": "^4.0.7"
   },
   "dependencies": {
+    "async": "^2.6.2",
     "jquery": "^3.3.1",
     "node-rsa": "^1.0.5",
     "semantic-ui-css": "^2.4.1",

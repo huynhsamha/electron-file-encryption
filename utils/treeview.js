@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const uid = require('uuid/v1')
+const async = require('async');
 const { humanFileSize } = require('./fmt');
 
 class ItemTreeView {
@@ -26,10 +27,10 @@ class TreeView {
 
     constructor(id) {
         this.id = id || uid();
-        this.files = [];
+        this.files = []; // list of Files
     }
 
-    makeItem(item) {
+    renderItem(item) {
         const isFolder = item instanceof Folder
         const itemType = isFolder ? 'folder' : 'file alternate'
         const color = isFolder ? 'blue' : 'black'
@@ -44,48 +45,72 @@ class TreeView {
             </div>`
     }
 
+    updateSizeOnView($item, newItem) {
+        $($item).find('> .content > .description').text(humanFileSize(newItem.size));
+    }
+
     addFile(file) {
         const item = new File(file);
         this.files.push(item)
-        $(this.id).append(this.makeItem(item))
+        $(this.id).append(this.renderItem(item))
     }
 
-    createFolder(item) {
-        const $folder = $(this.makeItem(item))
+    createFolder(folder, cb) {
+        const $folder = $(this.renderItem(folder))
         const $this = this;
-        fs.readdir(item.path, (err, files) => {
-            if (err) {
-                console.log(err);
-            } else {
-                files.forEach(filename => {
-                    const filepath = path.join(item.path, filename)
-                    const ritem = {
-                        name: filename,
-                        path: filepath,
-                        size: null
+        console.log('Folder');
+        console.log(folder);
+        fs.readdir(folder.path, (err, files) => {
+            if (err) return cb(err);
+            async.eachSeries(files, (filename, cb1) => {
+                const filepath = path.join(folder.path, filename)
+                const file = {
+                    name: filename,
+                    path: filepath,
+                    size: null
+                }
+                console.log(filepath);
+                fs.lstat(filepath, (err, stat) => {
+                    if (err) return cb1(err);
+                    file.size = stat.size;
+                    if (stat.isFile()) {
+                        folder.size += file.size; // update size of folder
+                        const newItem = new File(file);
+                        $this.files.push(newItem)
+                        $folder.find('> .content > .list').append($this.renderItem(newItem))
+                        cb1();
+
+                    } else if (stat.isDirectory()) {
+                        const subFolder = new Folder(file)
+                        $this.createFolder(subFolder, (err, $subFolder, subFolder) => {
+                            if (err) return cb1(err);
+                            folder.size += subFolder.size; 
+                            // update size of master folder with size of sub-folder
+                            $folder.find('> .content > .list').append($subFolder)
+                            cb1();
+                        })
+
+                    } else {
+                        cb1(new Error('Something is wrong'));
                     }
-                    fs.lstat(filepath, (err, stat) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            ritem.size = stat.size;
-                            if (stat.isFile()) {
-                                $folder.find('.list').append($this.makeItem(new File(ritem)))
-                            } else if (stat.isDirectory()) {
-                                $folder.find('.list').append($this.createFolder(new Folder(ritem)))
-                            }
-                        }
-                    })
                 })
-            }
+            }, (err) => {
+                if (err) return cb(err);
+                $this.updateSizeOnView($folder, folder);
+                return cb(null, $folder, folder);
+            })
         })
-        return $folder;
     }
 
     addFolder(file) {
-        const item = new Folder(file);
-        const $folder = this.createFolder(item);
-        $(this.id).append($folder)
+        const folder = new Folder(file);
+        this.createFolder(folder, (err, $folder, folder) => {
+            if (err) {
+                console.log(err);
+            } else {
+                $(this.id).append($folder)
+            }
+        })
     }
 }
 

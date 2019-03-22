@@ -1,0 +1,35 @@
+@import '../../styles/core.scss';
+
+.Menu {
+	margin-bottom: 35px;
+	.menu-detail {
+		// background-color: white;
+		// height: calc(100vh - 200px);
+		// overflow: auto;
+		// padding: 15px 20px 5px;
+	}
+	.title {
+		margin-bottom: 25px;
+	}
+	.group-algo {
+		margin-bottom: 25px;
+		&:last-child {
+			margin-bottom: 0px;
+		}
+		h6 {
+			margin-top: 5px;
+		}
+		.list-algo {
+			.algo {
+				margin: 5px;
+				span {
+					margin-left: 5px;
+					transition-duration: 0.2s
+				}
+				&:hover, &:focus {
+					span { margin-left: 15px }
+				}
+			}
+		}
+	}
+}
