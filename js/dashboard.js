@@ -23,6 +23,7 @@ const symmetric = require('../utils/symmetric/symmetric');
 const algorithms = require('../utils/symmetric/algorithms')
 
 const path = require('path');
+const async = require('async');
 
 
 $('#btn-logout').click(() => {
@@ -104,15 +105,20 @@ $('#btnEncrypt').click(() => {
         return showAlert('Error', 'Please select at least one file')
     }
 
-    files.forEach(file => {
+    async.eachSeries(files, (file, cb) => {
         const outputDir = $('#out-dir-path').val();
         const outputPath = path.join(outputDir, file.name + '.enc')
         const keyFilePath = path.join(outputDir, file.name + '.key')
         symmetric.encrypt(file.path, password, algorithms[algo], outputPath, keyFilePath).then(() => {
-            showAlert('Success', 'File is encrypted');
-        }).catch(err => {
+            console.log('Success', outputPath);
+            cb();
+        }).catch(err => cb(err))
+    }, err => {
+        if (err) {
             console.log(err);
-        })
+        } else {
+            showAlert('Success', 'File is encrypted');
+        }
     })
 })
 

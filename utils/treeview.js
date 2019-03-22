@@ -58,8 +58,7 @@ class TreeView {
     createFolder(folder, cb) {
         const $folder = $(this.renderItem(folder))
         const $this = this;
-        console.log('Folder');
-        console.log(folder);
+        // console.log('Folder', folder);
         fs.readdir(folder.path, (err, files) => {
             if (err) return cb(err);
             async.eachSeries(files, (filename, cb1) => {
@@ -69,7 +68,7 @@ class TreeView {
                     path: filepath,
                     size: null
                 }
-                console.log(filepath);
+                // console.log(filepath);
                 fs.lstat(filepath, (err, stat) => {
                     if (err) return cb1(err);
                     file.size = stat.size;
