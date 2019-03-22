@@ -20,6 +20,8 @@ $('#btn-to-form-signup').click(() => {
 })
 
 $('#btn-login').click(() => {
+    const username = $('#username-login').val();
+    localStorage.setItem('USERNAME', username);
     showLoading();
     setTimeout(() => {
         hideLoading();

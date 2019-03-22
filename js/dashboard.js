@@ -25,6 +25,10 @@ const algorithms = require('../utils/symmetric/algorithms')
 const path = require('path');
 const async = require('async');
 
+const username = localStorage.getItem('USERNAME');
+if (username && username != '') {
+    $('#username').text(username);
+}
 
 $('#btn-logout').click(() => {
     showConfirm('Warning', 'Do you want to logout?', logout);
@@ -237,6 +241,7 @@ function logout() {
     $('#modal-confirm').modal('hide')
     setTimeout(() => {
         showLoading();
+        localStorage.clear();
         setTimeout(() => {
             hideLoading();
             window.location.href = "../views/index.html"
