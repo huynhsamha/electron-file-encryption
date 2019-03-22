@@ -61,6 +61,24 @@ $('#out-dir').on('change', function () {
     $('#out-dir-path').val(files[0].path)
 })
 
+$('#out-dir-decrypt').on('change', function () {
+    const files = this.files;
+    console.log(files);
+    $('#out-dir-decrypt-path').val(files[0].path)
+})
+
+$('#encrypted-file').on('change', function () {
+    const files = this.files;
+    console.log(files);
+    $('#encrypted-file-path').val(files[0].path)
+})
+
+$('#key-file').on('change', function () {
+    const files = this.files;
+    console.log(files);
+    $('#key-file-path').val(files[0].path)
+})
+
 $('#select-raw-file').on('change', function () {
     const { value } = this
     const $rawFile = $('#raw-file')
@@ -86,6 +104,19 @@ $btnVisible.click(() => {
     }
 })
 
+const $btnVisibleDecrypt = $('#btn-visible-decrypt');
+const $inputDecryptPass = $('#inp-decrypt-pass');
+$btnVisibleDecrypt.click(() => {
+    const $ic = $btnVisibleDecrypt.find('i');
+    if ($ic.hasClass('slash')) {
+        $ic.removeClass('slash')
+        $inputDecryptPass.attr('type', 'password');
+    } else {
+        $ic.addClass('slash')
+        $inputDecryptPass.attr('type', 'input');
+    }
+})
+
 $('#btnEncrypt').click(() => {
     const algo = $('#dropdown-algo').find('.item.selected').attr('data-algo');
     console.log(algo);
@@ -105,6 +136,11 @@ $('#btnEncrypt').click(() => {
         return showAlert('Error', 'Please select at least one file')
     }
 
+    const outputFilePath = $('#out-dir-path').val();
+    if (!outputFilePath || outputFilePath == '') {
+        return showAlert('Error', 'Please select a output directory')
+    }
+
     async.eachSeries(files, (file, cb) => {
         const outputDir = $('#out-dir-path').val();
         const outputPath = path.join(outputDir, file.name + '.enc')
@@ -117,8 +153,68 @@ $('#btnEncrypt').click(() => {
         if (err) {
             console.log(err);
         } else {
-            showAlert('Success', 'File is encrypted');
+            showAlert('Success', 'File is encrypted successfully');
         }
+    })
+})
+
+$('#btn-decrypt-pass').click(() => {
+    const encryptedFilePath = $('#encrypted-file-path').val();
+    if (!encryptedFilePath || encryptedFilePath == '') {
+        return showAlert('Error', 'Please select a encrypted file')
+    }
+
+    const outputDirPath = $('#out-dir-decrypt-path').val();
+    if (!outputDirPath || outputDirPath == '') {
+        return showAlert('Error', 'Please select a output directory')
+    }
+
+    const password = $('#inp-decrypt-pass').val();
+    if (!password || password == '' || password.length < 5) {
+        return showAlert('Error', 'Passphrase is at least 5 characters')
+    }
+
+    console.log(encryptedFilePath);
+    console.log(outputDirPath);
+    console.log(password);
+
+    const outputFilePath = path.join(outputDirPath, `decrypted-file-${Date.now() / 1000}.dec`);
+
+    symmetric.decrypt(encryptedFilePath, password, null, outputFilePath).then(() => {
+        showAlert('Success', 'File is decrypted successfully');
+    }).catch(err => {
+        console.log(err);
+        showAlert('Error', err.message);
+    })
+})
+
+$('#btn-decrypt-key-file').click(() => {
+    const encryptedFilePath = $('#encrypted-file-path').val();
+    if (!encryptedFilePath || encryptedFilePath == '') {
+        return showAlert('Error', 'Please select a encrypted file')
+    }
+
+    const outputDirPath = $('#out-dir-decrypt-path').val();
+    if (!outputDirPath || outputDirPath == '') {
+        return showAlert('Error', 'Please select a output directory')
+    }
+
+    const keyFilePath = $('#key-file-path').val();
+    if (!keyFilePath || keyFilePath == '') {
+        return showAlert('Error', 'Please select a key file')
+    }
+
+    console.log(encryptedFilePath);
+    console.log(outputDirPath);
+    console.log(keyFilePath);
+
+    const outputFilePath = path.join(outputDirPath, `decrypted-file-${Date.now() / 1000}.dec`);
+
+    symmetric.decrypt(encryptedFilePath, null, keyFilePath, outputFilePath).then(() => {
+        showAlert('Success', 'File is decrypted successfully');
+    }).catch(err => {
+        console.log(err);
+        showAlert('Error', err.message);
     })
 })
 

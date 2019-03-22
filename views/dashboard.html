@@ -282,13 +282,13 @@
             <!-- Encrypted File -->
             <h3 class="ui header mt-1">Choose encrypted file</h3>
             <div class="ui action fluid input">
-              <input type="text" id="out-dir-decrypt-path" readonly>
+              <input type="text" id="encrypted-file-path" readonly>
               <label for="encrypted-file" class="ui icon red button">
                 <i class="upload icon"></i><span class="mr-1"></span>
                 Browse
               </label>
               <!-- One Folder -->
-              <input type="file" id="encrypted-file" directory webkitdirectory mozdirectory style="display: none">
+              <input type="file" id="encrypted-file" style="display: none">
             </div>
           </div>
           <!-- End Left -->
@@ -303,8 +303,8 @@
                 <i class="folder open icon"></i><span class="mr-1"></span>
                 Browse
               </label>
-              <!-- One File -->
-              <input type="file" id="out-dir-decrypt" style="display: none">
+              <!-- One Folder -->
+              <input type="file" directory webkitdirectory mozdirectory id="out-dir-decrypt" style="display: none">
             </div>
           </div>
           <!-- End Right -->
@@ -330,7 +330,7 @@
                   </button>
                 </div>
 
-                <div class="ui animated pink fade button mt-2" tabindex="0" id="btn-start">
+                <div class="ui animated pink fade button mt-2" tabindex="0" id="btn-decrypt-pass">
                   <div class="visible content">Decrypt with Passphrase</div>
                   <div class="hidden content">
                     <i class="recycle arrow icon"></i>
@@ -344,14 +344,14 @@
                   Use Key File
                 </div>
                 <div class="ui action fluid input">
-                  <input type="text" id="out-dir-decrypt-path" readonly>
+                  <input type="text" id="key-file-path" readonly>
                   <label for="key-file" class="ui icon orange button">
                     <i class="hand point left icon"></i><span class="mr-1"></span>
                   </label>
                   <!-- One File -->
                   <input type="file" id="key-file" style="display: none">
                 </div>
-                <div class="ui animated orange fade button mt-2" tabindex="0" id="btn-start">
+                <div class="ui animated orange fade button mt-2" tabindex="0" id="btn-decrypt-key-file">
                   <div class="visible content">Decrypt with Key File</div>
                   <div class="hidden content">
                     <i class="recycle icon"></i>
