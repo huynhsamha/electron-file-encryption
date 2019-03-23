@@ -4,7 +4,7 @@
   "description": "File Encryption Cross Platform Desktop App using Electron Framework",
   "main": "main.js",
   "scripts": {
-    "start": "ELECTRON_IS_DEV=1 && electron .",
+    "start": "electron .",
     "build": "electron-packager .",
     "build:all": "electron-packager . --all"
   },
@@ -15,14 +15,13 @@
   },
   "dependencies": {
     "async": "^2.6.2",
-    "electron-is-dev": "^1.0.1",
     "jquery": "^3.3.1",
     "node-rsa": "^1.0.5",
     "semantic-ui-css": "^2.4.1",
     "uuid": "^3.3.2"
   },
   "repository": "https://github.com/huynhsamha/electron-file-encryption",
-  "license": "huynhsamha",
+  "license": "HaRiSK",
   "keywords": [
     "electron",
     "encryption",

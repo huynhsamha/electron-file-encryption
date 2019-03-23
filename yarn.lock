@@ -281,11 +281,6 @@ electron-download@^4.1.0, electron-download@^4.1.1:
     semver "^5.4.1"
     sumchecker "^2.0.2"
 
-electron-is-dev@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-1.0.1.tgz#6e0a184736fe7aea77d18210b0b0f6a02402c4bc"
-  integrity sha512-iwM3EotA9HTXqMGpQRkR/kT8OZqBbdfHTnlwcxsjSLYqY8svvsq0MuujsWCn3/vtgRmDv/PC/gKUUpoZvi5C1w==
-
 electron-notarize@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/electron-notarize/-/electron-notarize-0.0.5.tgz#d9e95c763a6af853ce16d31dde72d73cb25b0703"

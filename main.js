@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
-const isDev = require('electron-is-dev');
+
+const config = require('./config');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -22,7 +23,7 @@ function createWindow () {
   mainWindow.loadFile('./views/index.html')
 
   // Open the DevTools.
-  if (isDev) {
+  if (config.isDev) {
     mainWindow.webContents.openDevTools()
   }
 

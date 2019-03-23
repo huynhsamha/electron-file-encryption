@@ -19,6 +19,7 @@ $('.ui.dropdown').dropdown()
 $('.ui.checkbox').checkbox()
 $('.menu .item').tab()
 
+
 /**
  * Tree View Module
  */
@@ -35,6 +36,16 @@ const username = localStorage.getItem('USERNAME');
 if (username && username != '') {
     $('#username').text(username);
 }
+
+const $progressBar = $('#progressBar');
+$progressBar.hide();
+
+$progressBar.progress({
+    text: {
+        active: '{percent}% done',
+        success: 'Successfully',
+    }
+})
 
 $('#btn-logout').click(() => {
     showConfirm('Warning', 'Do you want to logout?', logout);
@@ -151,6 +162,23 @@ $('#btnEncrypt').click(() => {
         return showAlert('Error', 'Please select a output directory')
     }
 
+    // $progressBar.show();
+    // $progressBar.progress('reset');
+    // window.complete = false;
+    // clearInterval(window.fakeProgress)
+
+    // window.fakeProgress = setInterval(() => {
+    //     const currentPercent = $progressBar.progress('get percent');
+    //     if (window.complete) {
+    //         $progressBar.progress('set percent(100)')
+    //     } else {
+    //         if (currentPercent)
+    //         $progress.progress('increment(1)');
+    //     }
+    // }, 100);
+
+    if (algo == 'rsa') showLoading();
+
     async.eachSeries(files, (file, cb) => {
         const outputDir = $('#out-dir-path').val();
         const outputPath = path.join(outputDir, file.name + '.enc')
@@ -160,6 +188,7 @@ $('#btnEncrypt').click(() => {
             cb();
         }).catch(err => cb(err))
     }, err => {
+        hideLoading();
         if (err) {
             console.log(err);
         } else {
@@ -190,10 +219,21 @@ $('#btn-decrypt-pass').click(() => {
 
     const outputFilePath = path.join(outputDirPath, `decrypted-file-${Date.now() / 1000}.dec`);
 
+    window.shouldBeRSA = true;
+    setTimeout(() => {
+        if (window.shouldBeRSA) {
+            showLoading();
+        }
+    }, 800);
+
     cryption.decrypt(encryptedFilePath, password, null, outputFilePath).then(() => {
+        window.shouldBeRSA = false;
+        hideLoading();
         showAlert('Success', `File is decrypted successfully. Your file: ${outputFilePath}`);
     }).catch(err => {
         console.log(err);
+        window.shouldBeRSA = false;
+        hideLoading();
         showAlert('Error', 'Passphrase is not correct');
     })
 })
@@ -220,10 +260,21 @@ $('#btn-decrypt-key-file').click(() => {
 
     const outputFilePath = path.join(outputDirPath, `decrypted-file-${Date.now() / 1000}.dec`);
 
+    window.shouldBeRSA = true;
+    setTimeout(() => {
+        if (window.shouldBeRSA) {
+            showLoading();
+        }
+    }, 800);
+
     cryption.decrypt(encryptedFilePath, null, keyFilePath, outputFilePath).then(() => {
+        window.shouldBeRSA = false;
+        hideLoading();
         showAlert('Success', `File is decrypted successfully. Your file: ${outputFilePath}`);
     }).catch(err => {
         console.log(err);
+        window.shouldBeRSA = false;
+        hideLoading();
         showAlert('Error', 'Key file is invalid');
     })
 })
