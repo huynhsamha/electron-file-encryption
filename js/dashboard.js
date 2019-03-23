@@ -1,4 +1,10 @@
 /**
+ * Node Modules
+ */
+const path = require('path');
+const async = require('async');
+
+/**
  * Init jQuery
  */
 const $ = require('jquery');
@@ -13,17 +19,17 @@ $('.ui.dropdown').dropdown()
 $('.ui.checkbox').checkbox()
 $('.menu .item').tab()
 
+/**
+ * Tree View Module
+ */
 const { TreeView } = require('../utils/treeview')
 const treeView = new TreeView('#list-files')
 
 /**
- * Symmetric module
+ * Cryption module
  */
-const symmetric = require('../utils/symmetric/symmetric');
-const algorithms = require('../utils/symmetric/algorithms')
+const cryption = require('../utils/cryption');
 
-const path = require('path');
-const async = require('async');
 
 const username = localStorage.getItem('USERNAME');
 if (username && username != '') {
@@ -149,7 +155,7 @@ $('#btnEncrypt').click(() => {
         const outputDir = $('#out-dir-path').val();
         const outputPath = path.join(outputDir, file.name + '.enc')
         const keyFilePath = path.join(outputDir, file.name + '.key')
-        symmetric.encrypt(file.path, password, algorithms[algo], outputPath, keyFilePath).then(() => {
+        cryption.encrypt(algo, file.path, password, outputPath, keyFilePath).then(() => {
             console.log('Success', outputPath);
             cb();
         }).catch(err => cb(err))
@@ -184,11 +190,11 @@ $('#btn-decrypt-pass').click(() => {
 
     const outputFilePath = path.join(outputDirPath, `decrypted-file-${Date.now() / 1000}.dec`);
 
-    symmetric.decrypt(encryptedFilePath, password, null, outputFilePath).then(() => {
-        showAlert('Success', 'File is decrypted successfully');
+    cryption.decrypt(encryptedFilePath, password, null, outputFilePath).then(() => {
+        showAlert('Success', `File is decrypted successfully. Your file: ${outputFilePath}`);
     }).catch(err => {
         console.log(err);
-        showAlert('Error', err.message);
+        showAlert('Error', 'Passphrase is not correct');
     })
 })
 
@@ -214,12 +220,32 @@ $('#btn-decrypt-key-file').click(() => {
 
     const outputFilePath = path.join(outputDirPath, `decrypted-file-${Date.now() / 1000}.dec`);
 
-    symmetric.decrypt(encryptedFilePath, null, keyFilePath, outputFilePath).then(() => {
-        showAlert('Success', 'File is decrypted successfully');
+    cryption.decrypt(encryptedFilePath, null, keyFilePath, outputFilePath).then(() => {
+        showAlert('Success', `File is decrypted successfully. Your file: ${outputFilePath}`);
     }).catch(err => {
         console.log(err);
-        showAlert('Error', err.message);
+        showAlert('Error', 'Key file is invalid');
     })
+})
+
+$('#btnViewKey').click(() => {
+    const algo = $('#dropdown-algo').find('.item.selected').attr('data-algo');
+    console.log(algo);
+    if (!algo || algo == '') {
+        return showAlert('Error', 'Algorithm is required')
+    }
+
+    if (algo == 'rsa') {
+        return showAlert('Error', 'RSA Keys will be generated in enryption time')
+    }
+
+    const password = $('#inp-enc-pass').val();
+    console.log(password);
+    if (!password || password == '' || password.length < 5) {
+        return showAlert('Error', 'Passphrase is at least 5 characters')
+    }
+
+    showAlert('Encryption Key', cryption.getDemoSymmetricKey(algo, password))
 })
 
 function showAlert(title = 'Alert', message = '') {

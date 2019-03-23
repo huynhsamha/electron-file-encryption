@@ -191,23 +191,23 @@
                 <div class="scrolling menu">
                   <div class="item" data-algo="aes-256-cbc">
                     <div class="ui red empty circular label"></div>
-                    AES (Advanced Encryption Standard) - Key Length: 256 bits
+                    AES (Advanced Encryption Standard), Key Length: 256 bits
                   </div>
                   <div class="item" data-algo="aes-192-cbc">
-                    <div class="ui red empty circular label"></div>
-                    AES (Advanced Encryption Standard) - Key Length: 192 bits
+                    <div class="ui orange empty circular label"></div>
+                    AES (Advanced Encryption Standard), Key Length: 192 bits
                   </div>
                   <div class="item" data-algo="aes-128-cbc">
-                    <div class="ui red empty circular label"></div>
-                    AES (Advanced Encryption Standard) - Key Length: 128 bits
+                    <div class="ui yellow empty circular label"></div>
+                    AES (Advanced Encryption Standard), Key Length: 128 bits
                   </div>
                   <div class="item" data-algo="des-ede3-cbc">
                     <div class="ui blue empty circular label"></div>
-                    DES (Data Encryption Standard) - Key Length: 192 bits
+                    DES (Data Encryption Standard), Key Length: 192 bits
                   </div>
                   <div class="item" data-algo="des-cbc">
-                    <div class="ui blue empty circular label"></div>
-                    DES (Data Encryption Standard) - Key Length: 64 bits
+                    <div class="ui green empty circular label"></div>
+                    DES (Data Encryption Standard), Key Length: 64 bits
                   </div>
                 </div>
                 <div class="header">
@@ -216,7 +216,7 @@
                 </div>
                 <div class="scrolling menu">
                   <div class="item" data-algo="rsa">
-                    <div class="ui orange empty circular label"></div>
+                    <div class="ui purple empty circular label"></div>
                     RSA (Rivest–Shamir–Adleman)
                   </div>
                 </div>
@@ -246,13 +246,13 @@
             </div>
 
             <!-- Options -->
-            <h3 class="ui header mt-3">Options</h3>
+            <!-- <h3 class="ui header mt-3">Options</h3>
             <div class="field">
               <div class="ui toggle checkbox">
                 <input type="checkbox" name="gift" tabindex="0" class="hidden">
                 <label>Store the key file</label>
               </div>
-            </div>
+            </div> -->
 
             <!-- Buttons -->
             <div class="ui fluid buttons mt-4">
@@ -465,7 +465,7 @@
   <div class="ui mini modal" id="modal-alert">
     <div class="header" id="alert-title">[Title]</div>
     <div class="content" style="font-size: 16px">
-      <p id="alert-message">[Message]</p>
+      <p id="alert-message" class="d-block" style="overflow: auto">[Message]</p>
     </div>
     <div class="actions">
       <div class="ui red ok button">OK</div>

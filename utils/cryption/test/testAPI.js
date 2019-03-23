@@ -83,7 +83,7 @@ function testEncryptAndDecrypt(alg) {
         })
 }
 
-// testGetSampleKeys();
+testGetSampleKeys();
 
 // testEncryption();
 // testDecryption();
@@ -96,4 +96,4 @@ function testEncryptAndDecrypt(alg) {
 // testEncryptAndDecrypt(cryption.symmAlgs[1]);
 // testEncryptAndDecrypt(cryption.symmAlgs[2]);
 // testEncryptAndDecrypt(cryption.symmAlgs[3]);
-testEncryptAndDecrypt(cryption.symmAlgs[4]);
+// testEncryptAndDecrypt(cryption.symmAlgs[4]);
