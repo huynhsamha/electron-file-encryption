@@ -4,7 +4,22 @@
   "description": "File Encryption Cross Platform Desktop App using Electron Framework",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "ELECTRON_IS_DEV=1 && electron .",
+    "build": "electron-packager .",
+    "build:all": "electron-packager . --all"
+  },
+  "productName": "BKU File Encryption",
+  "devDependencies": {
+    "electron": "^4.0.7",
+    "electron-packager": "^13.1.1"
+  },
+  "dependencies": {
+    "async": "^2.6.2",
+    "electron-is-dev": "^1.0.1",
+    "jquery": "^3.3.1",
+    "node-rsa": "^1.0.5",
+    "semantic-ui-css": "^2.4.1",
+    "uuid": "^3.3.2"
   },
   "repository": "https://github.com/huynhsamha/electron-file-encryption",
   "license": "huynhsamha",
@@ -12,15 +27,5 @@
     "electron",
     "encryption",
     "file-encryption"
-  ],
-  "devDependencies": {
-    "electron": "^4.0.7"
-  },
-  "dependencies": {
-    "async": "^2.6.2",
-    "jquery": "^3.3.1",
-    "node-rsa": "^1.0.5",
-    "semantic-ui-css": "^2.4.1",
-    "uuid": "^3.3.2"
-  }
+  ]
 }
