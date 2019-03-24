@@ -64,7 +64,7 @@ function testDecryptionUseKeyFile() {
         })
 }
 
-var file = 'pdffile.pdf';
+var file = 'short.txt';
 var enc = file + '.enc';
 var key = file + '.key';
 var dec = enc + '.dec';
@@ -96,8 +96,8 @@ function testEncryptAndDecrypt(alg) {
 // testDecryptionUseKeyFile();
 
 
-// testEncryptAndDecrypt(cryption.asymmAlgs[0]);
-testEncryptAndDecrypt(cryption.symmAlgs[0]);
+testEncryptAndDecrypt(cryption.asymmAlgs[0]);
+// testEncryptAndDecrypt(cryption.symmAlgs[0]);
 // testEncryptAndDecrypt(cryption.symmAlgs[1]);
 // testEncryptAndDecrypt(cryption.symmAlgs[2]);
 // testEncryptAndDecrypt(cryption.symmAlgs[3]);

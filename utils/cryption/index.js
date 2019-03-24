@@ -24,16 +24,19 @@ function getDemoRSAKey() {
 
 function encrypt(algorithm, filePath, password, outputPath, keyFilePath, updateProgress) {
     return new Promise((resolve, reject) => {
+        let func = null;
+        let args = null;
         if (symmAlgs.includes(algorithm)) {
-            symmetric.encrypt(filePath, password, algorithms.symmetric[algorithm], outputPath, keyFilePath, updateProgress)
-                .then(resolve)
-                .catch(reject);
+            func = symmetric.encrypt;
+            args = [filePath, password, algorithms.symmetric[algorithm], outputPath, keyFilePath, updateProgress];
         }
         else {
-            asymmetric.encrypt(filePath, password, outputPath, keyFilePath)
-                .then(resolve)
-                .catch(reject);
+            func = asymmetric.encrypt;
+            args = [filePath, password, outputPath, keyFilePath, updateProgress]
         }
+        func.apply(null, args)
+            .then(resolve)
+            .catch(reject);
     });
     
 }
@@ -42,13 +45,16 @@ function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
     return new Promise((resolve, reject) => {
         const config = readConfig(filePath);
         let decryptFunc = null;
+        let args = null;
         if (symmAlgs.includes(config.algorithm)) {
             decryptFunc = symmetric.decrypt;
+            args = [filePath, password, keyFilePath, outputPath, updateProgress];
         }
         else {
             decryptFunc = asymmetric.decrypt;
+            args = [filePath, password, keyFilePath, outputPath];
         }
-        decryptFunc(filePath, password, keyFilePath, outputPath, updateProgress)
+        decryptFunc.apply(null, args)
             .then(resolve)
             .catch(reject);
     });
