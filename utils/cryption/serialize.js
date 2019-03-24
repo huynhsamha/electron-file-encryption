@@ -1,4 +1,4 @@
-const stringKeys = ['algorithm'];
+const stringKeys = ['algorithm', 'hash'];
 
 function configSerialize(config) {
     const newConfig = {...config};

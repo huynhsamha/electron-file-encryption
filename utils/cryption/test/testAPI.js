@@ -1,19 +1,18 @@
 const cryption = require('../index');
 
-console.log('Supported symmetric cryption algorithms;')
-console.log(cryption.symmAlgs);
+// console.log('Supported symmetric cryption algorithms;')
+// console.log(cryption.symmAlgs);
 
-console.log('Supported asymmetric cryption algorithms;')
-console.log(cryption.asymmAlgs);
+// console.log('Supported asymmetric cryption algorithms;')
+// console.log(cryption.asymmAlgs);
 
-console.log();
+// console.log();
 
 
-function testGetSampleKeys() {
-    console.log(cryption.getDemoSymmetricKey(cryption.symmAlgs[0], 'hello world'));
-    console.log(cryption.getDemoRSAKey());
-
-}
+// function testGetSampleKeys() {
+//     console.log(cryption.getDemoSymmetricKey(cryption.symmAlgs[0], 'hello world'));
+//     console.log(cryption.getDemoRSAKey());
+// }
 
 
 
@@ -69,6 +68,7 @@ var enc = file + '.enc';
 var key = file + '.key';
 var dec = enc + '.dec';
 var update = (byteCount) => console.log(`Bytes read: ${byteCount}`);
+var update = null;
 function testEncryptAndDecrypt(alg) {
     console.log('Encryption algorithm:', alg);
     cryption.encrypt(alg, file, 'my password', enc, key, update)
@@ -95,7 +95,7 @@ function testEncryptAndDecrypt(alg) {
 // testDecryptionWrongPassword();
 // testDecryptionUseKeyFile();
 
-
+// 
 testEncryptAndDecrypt(cryption.asymmAlgs[0]);
 // testEncryptAndDecrypt(cryption.symmAlgs[0]);
 // testEncryptAndDecrypt(cryption.symmAlgs[1]);

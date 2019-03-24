@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const fs = require('fs');
+const hashModule = require('./hash');
 const { AppendConfigWriter, readConfig, createEncryptedReadStream } = require('./header-handle');
-const path = require('path');
 const algorithms = require('./algorithms');
 const symmKeyHandle = require('./sym-key-handle');
 const ByteCounterStream = require('./byte-counter-stream');
@@ -18,11 +18,11 @@ const ByteCounterStream = require('./byte-counter-stream');
 function encrypt(filePath, password, algorithm, outputPath, keyFilePath, updateProgress) {
     // Key generating & config
     const { key, salt } = symmKeyHandle.genKey(password, algorithm.keyLength, algorithm.blockSize);
-    const initVector = crypto.randomBytes(algorithm.ivSize / 8);
     const config = {
         algorithm: algorithm.name,
         salt,
-        iv: initVector,
+        iv: crypto.randomBytes(algorithm.ivSize / 8),
+        hash: hashModule.getHashValue(filePath),
     }
     
     symmKeyHandle.writeKeyToFile(key, keyFilePath)
@@ -32,7 +32,7 @@ function encrypt(filePath, password, algorithm, outputPath, keyFilePath, updateP
     const byteCounterStream = new ByteCounterStream(updateProgress);
     const cipher = crypto.createCipheriv(algorithm.name, key, config.iv);
     const appendConfigWriter = new AppendConfigWriter(config)
-    const writeStream = fs.createWriteStream(path.join(outputPath));
+    const writeStream = fs.createWriteStream(outputPath);
     readStream
         .pipe(cipher)
         .pipe(byteCounterStream)
@@ -40,7 +40,7 @@ function encrypt(filePath, password, algorithm, outputPath, keyFilePath, updateP
         .pipe(writeStream)
 
     return new Promise((resolve, reject) => {
-        writeStream.on('finish', () => resolve());
+        writeStream.on('close', () => resolve());
     });
 }
 
@@ -65,6 +65,7 @@ function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
     const byteCounterStream = new ByteCounterStream(updateProgress);
     const decipher = crypto.createDecipheriv(algorithm.name, key, config.iv);
     const writeStream = fs.createWriteStream(outputPath);
+
     readStream
         .pipe(byteCounterStream)
         .pipe(decipher)
@@ -72,7 +73,15 @@ function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
     
     return new Promise((resolve, reject) => {   
         decipher.on('error', () => reject('incorrect password'));
-        writeStream.on('finish', () => resolve());
+        writeStream.on('close', () => {
+            const newHash = hashModule.getHashValue(outputPath);
+            if (hashModule.validateHash(config.hash, newHash)) {
+                resolve();
+            }
+            else {
+                reject('incorrect hash, file corrupted');
+            }
+        });
     });
         
 }

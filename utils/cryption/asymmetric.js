@@ -1,6 +1,7 @@
 const NodeRSA = require('node-rsa');
 const crypto = require('crypto');
 const fs = require('fs');
+const hashModule = require('./hash');
 const symKeyHandle = require('./sym-key-handle');
 const algorithms = require('./algorithms');
 const util = require('util');
@@ -24,15 +25,15 @@ async function encrypt(filePath, password, outputPath, keyFilePath) {
     // Get symmetric key from password
     const algorithm = algorithms.symmetric["aes-256-cbc"];
     const { key: symKey, salt } = symKeyHandle.genKey(password, algorithm.keyLength, algorithm.blockSize);
-    const initVector = crypto.randomBytes(algorithm.ivSize / 8);
     const config = {
         algorithm: 'rsa',
         salt,
-        iv: initVector,
+        iv: crypto.randomBytes(algorithm.ivSize / 8),
+        hash: hashModule.getHashValue(filePath),
     }
     
     // Encrypt private key
-    const cipher = crypto.createCipheriv(algorithm.name, symKey, initVector);
+    const cipher = crypto.createCipheriv(algorithm.name, symKey, config.iv);
     const encryptedPrivateKey = Buffer.concat([
         cipher.update(rsaKey.exportKey('pkcs8-private-der')),
         cipher.final()
@@ -53,13 +54,14 @@ async function encrypt(filePath, password, outputPath, keyFilePath) {
         .pipe(outputStream);
     
     return new Promise((resolve, reject) => {
-        outputStream.on('finish', () => resolve());
+        outputStream.on('close', () => resolve());
     })
 }
 
 function decrypt(filePath, password, keyFilePath, outputPath) {
     // Read RSA private key
     const rsaKey = new NodeRSA();
+    const config = readConfig(filePath);
     let incorrectPassword = false;
 
     // Using key file to get private key
@@ -69,7 +71,6 @@ function decrypt(filePath, password, keyFilePath, outputPath) {
     }
     // Using password to decrypt encrypted private key
     else {
-        const config = readConfig(filePath);
         const symAlg = algorithms.symmetric['aes-256-cbc'];
         const symKey = symKeyHandle.recoverKey(password, symAlg.keyLength, config.salt);
 
@@ -96,7 +97,13 @@ function decrypt(filePath, password, keyFilePath, outputPath) {
             inputStream.on('data', encryptedData => {
                 const plaintext = rsaKey.decrypt(encryptedData);
                 fs.writeFileSync(outputPath, plaintext);
-                resolve();
+                const newHash = hashModule.getHashValue(outputPath);
+                if (hashModule.validateHash(config.hash, newHash)) {
+                    resolve();
+                }
+                else {
+                    reject('incorrect hash, file corrupted');
+                }
             });
         }
 
