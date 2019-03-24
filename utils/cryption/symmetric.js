@@ -4,6 +4,7 @@ const { AppendConfigWriter, readConfig, createEncryptedReadStream } = require('.
 const path = require('path');
 const algorithms = require('./algorithms');
 const symmKeyHandle = require('./sym-key-handle');
+const ByteCounterStream = require('./byte-counter-stream');
 
 /**
  * 
@@ -14,7 +15,7 @@ const symmKeyHandle = require('./sym-key-handle');
  * @param {string} keyFilePath - The file path to store the key, in hex form.
  * @returns {Promise} - A Promise resolve when the encryption is done.
  */
-function encrypt(filePath, password, algorithm, outputPath, keyFilePath) {
+function encrypt(filePath, password, algorithm, outputPath, keyFilePath, updateProgress) {
     // Key generating & config
     const { key, salt } = symmKeyHandle.genKey(password, algorithm.keyLength, algorithm.blockSize);
     const initVector = crypto.randomBytes(algorithm.ivSize / 8);
@@ -28,11 +29,13 @@ function encrypt(filePath, password, algorithm, outputPath, keyFilePath) {
 
     // Encrypt & write to file
     const readStream = fs.createReadStream(filePath);
+    const byteCounterStream = new ByteCounterStream(updateProgress);
     const cipher = crypto.createCipheriv(algorithm.name, key, config.iv);
     const appendConfigWriter = new AppendConfigWriter(config)
     const writeStream = fs.createWriteStream(path.join(outputPath));
     readStream
         .pipe(cipher)
+        .pipe(byteCounterStream)
         .pipe(appendConfigWriter)
         .pipe(writeStream)
 
@@ -40,6 +43,7 @@ function encrypt(filePath, password, algorithm, outputPath, keyFilePath) {
         writeStream.on('finish', () => resolve());
     });
 }
+
 
 /**
  * 
@@ -49,7 +53,7 @@ function encrypt(filePath, password, algorithm, outputPath, keyFilePath) {
  * @param {string} outputPath - The decrypted file path
  * @returns {Promise} - A Promise resolve when the decryption is done.
  */
-function decrypt(filePath, password, keyFilePath, outputPath) {
+function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
     const config = readConfig(filePath);
     const algorithm = algorithms.symmetric[config.algorithm];
     const key = typeof(keyFilePath) === 'string' ?
@@ -58,13 +62,15 @@ function decrypt(filePath, password, keyFilePath, outputPath) {
                 symmKeyHandle.recoverKey(password, algorithm.keyLength, config.salt);
     
     const readStream = createEncryptedReadStream(filePath);
+    const byteCounterStream = new ByteCounterStream(updateProgress);
     const decipher = crypto.createDecipheriv(algorithm.name, key, config.iv);
     const writeStream = fs.createWriteStream(outputPath);
+    readStream
+        .pipe(byteCounterStream)
+        .pipe(decipher)
+        .pipe(writeStream);
     
     return new Promise((resolve, reject) => {   
-        readStream
-            .pipe(decipher)
-            .pipe(writeStream);
         decipher.on('error', () => reject('incorrect password'));
         writeStream.on('finish', () => resolve());
     });

@@ -64,15 +64,20 @@ function testDecryptionUseKeyFile() {
         })
 }
 
+var file = 'pdffile.pdf';
+var enc = file + '.enc';
+var key = file + '.key';
+var dec = enc + '.dec';
+var update = (byteCount) => console.log(`Bytes read: ${byteCount}`);
 function testEncryptAndDecrypt(alg) {
     console.log('Encryption algorithm:', alg);
-    cryption.encrypt(alg, 'test.txt', 'my password', 'test.txt.enc', 'test.txt.key')
+    cryption.encrypt(alg, file, 'my password', enc, key, update)
         .then(() => {
             console.log('File encrypted!');
-            cryption.decrypt('test.txt.enc', 'my password', null, 'test.txt.enc.dec')
+            cryption.decrypt(enc, 'my password', null, dec, update)
                 .then(() => {
                     console.log('File decrypted using password!');
-                    cryption.decrypt('test.txt.enc', null, 'test.txt.key', 'test.txt.enc.dec')
+                    cryption.decrypt(enc, null, key, dec)
                         .then(() => {
                             console.log('File decrypted using key file!');
                         })
@@ -83,7 +88,7 @@ function testEncryptAndDecrypt(alg) {
         })
 }
 
-testGetSampleKeys();
+// testGetSampleKeys();
 
 // testEncryption();
 // testDecryption();
@@ -92,7 +97,7 @@ testGetSampleKeys();
 
 
 // testEncryptAndDecrypt(cryption.asymmAlgs[0]);
-// testEncryptAndDecrypt(cryption.symmAlgs[0]);
+testEncryptAndDecrypt(cryption.symmAlgs[0]);
 // testEncryptAndDecrypt(cryption.symmAlgs[1]);
 // testEncryptAndDecrypt(cryption.symmAlgs[2]);
 // testEncryptAndDecrypt(cryption.symmAlgs[3]);

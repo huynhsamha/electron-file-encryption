@@ -22,10 +22,10 @@ function getDemoRSAKey() {
 }
 
 
-function encrypt(algorithm, filePath, password, outputPath, keyFilePath) {
+function encrypt(algorithm, filePath, password, outputPath, keyFilePath, updateProgress) {
     return new Promise((resolve, reject) => {
         if (symmAlgs.includes(algorithm)) {
-            symmetric.encrypt(filePath, password, algorithms.symmetric[algorithm], outputPath, keyFilePath)
+            symmetric.encrypt(filePath, password, algorithms.symmetric[algorithm], outputPath, keyFilePath, updateProgress)
                 .then(resolve)
                 .catch(reject);
         }
@@ -38,7 +38,7 @@ function encrypt(algorithm, filePath, password, outputPath, keyFilePath) {
     
 }
 
-function decrypt(filePath, password, keyFilePath, outputPath) {
+function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
     return new Promise((resolve, reject) => {
         const config = readConfig(filePath);
         let decryptFunc = null;
@@ -48,7 +48,7 @@ function decrypt(filePath, password, keyFilePath, outputPath) {
         else {
             decryptFunc = asymmetric.decrypt;
         }
-        decryptFunc(filePath, password, keyFilePath, outputPath)
+        decryptFunc(filePath, password, keyFilePath, outputPath, updateProgress)
             .then(resolve)
             .catch(reject);
     });
