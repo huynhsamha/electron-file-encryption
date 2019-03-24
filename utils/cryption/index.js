@@ -21,7 +21,26 @@ function getDemoRSAKey() {
     }
 }
 
+/**
+ * 
+ * Callback function to check to cryption progress
+ * Only effective when using with symmetric encryption/decryption
+ * Discarded when used with asymmetric encryption/decryption
+ * 
+ * @callback updateProgressCallback
+ * @param {number} byteCount - The number of bytes processed.
+ */
 
+/**
+ * 
+ * @param {string} algorithm - The algorithm used for encryption.
+ * @param {string} filePath - Path to the file to be encrypted.
+ * @param {string} password - The password used to lock the file.
+ * @param {string} outputPath - The encrypted file path
+ * @param {string} keyFilePath - The file path to store the key, in hex form.
+ * @param {updateProgressCallback} updateProgress - A callback function to monitor encryption progress
+ * 
+ */
 function encrypt(algorithm, filePath, password, outputPath, keyFilePath, updateProgress) {
     return new Promise((resolve, reject) => {
         let func = null;
@@ -41,6 +60,14 @@ function encrypt(algorithm, filePath, password, outputPath, keyFilePath, updateP
     
 }
 
+/**
+ * 
+ * @param {string} filePath - Path to the file to be decrypted.
+ * @param {string} password - The password used to lock the file.
+ * @param {string} keyFilePath - The path to the key file. `password` or `keyFilePath` has to be specified.
+ * @param {string} outputPath - The decrypted file path
+ * @param {updateProgressCallback} updateProgress - A callback function to monitor decryption progress
+ */
 function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
     return new Promise((resolve, reject) => {
         const config = readConfig(filePath);
