@@ -141,26 +141,34 @@ $btnVisibleDecrypt.click(() => {
 })
 
 $('#btnEncrypt').click(() => {
+    $('#btnEncrypt').attr('disabled', true);
+
+    const enableButton = () => $('#btnEncrypt').attr('disabled', false);
+
     const algo = $('#dropdown-algo').find('.item.selected').attr('data-algo');
     console.log(algo);
     if (!algo || algo == '') {
+        enableButton()
         return showAlert('Error', 'Algorithm is required')
     }
 
     const password = $('#inp-enc-pass').val();
     console.log(password);
     if (!password || password == '' || password.length < 5) {
+        enableButton()
         return showAlert('Error', 'Passphrase is at least 5 characters')
     }
 
     const files = treeView.files;
     console.log(files);
     if (files.length == 0) {
+        enableButton()
         return showAlert('Error', 'Please select at least one file')
     }
 
     const outputFilePath = $('#out-dir-path').val();
     if (!outputFilePath || outputFilePath == '') {
+        enableButton()
         return showAlert('Error', 'Please select a output directory')
     }
 
@@ -191,6 +199,7 @@ $('#btnEncrypt').click(() => {
         }).catch(err => cb(err))
     }, err => {
         hideLoading();
+        enableButton();
         if (err) {
             console.log(err);
         } else {
@@ -200,18 +209,25 @@ $('#btnEncrypt').click(() => {
 })
 
 $('#btn-decrypt-pass').click(() => {
+    $('#btn-decrypt-pass').attr('disabled', true);
+
+    const enableButton = () => $('#btn-decrypt-pass').attr('disabled', false);
+
     const encryptedFilePath = $('#encrypted-file-path').val();
     if (!encryptedFilePath || encryptedFilePath == '') {
+        enableButton();
         return showAlert('Error', 'Please select a encrypted file')
     }
 
     const outputDirPath = $('#out-dir-decrypt-path').val();
     if (!outputDirPath || outputDirPath == '') {
+        enableButton();
         return showAlert('Error', 'Please select a output directory')
     }
 
     const password = $('#inp-decrypt-pass').val();
     if (!password || password == '' || password.length < 5) {
+        enableButton();
         return showAlert('Error', 'Passphrase is at least 5 characters')
     }
 
@@ -231,28 +247,37 @@ $('#btn-decrypt-pass').click(() => {
     cryption.decrypt(encryptedFilePath, password, null, outputFilePath).then(() => {
         window.shouldBeRSA = false;
         hideLoading();
+        enableButton();
         showAlert('Success', `File is decrypted successfully. Your file: ${outputFilePath}`);
     }).catch(err => {
         console.log(err);
         window.shouldBeRSA = false;
         hideLoading();
+        enableButton();
         showAlert('Error', 'Passphrase is not correct');
     })
 })
 
 $('#btn-decrypt-key-file').click(() => {
+    $('#btn-decrypt-key-file').attr('disabled', true);
+
+    const enableButton = () => $('#btn-decrypt-key-file').attr('disabled', false);
+
     const encryptedFilePath = $('#encrypted-file-path').val();
     if (!encryptedFilePath || encryptedFilePath == '') {
+        enableButton()
         return showAlert('Error', 'Please select a encrypted file')
     }
 
     const outputDirPath = $('#out-dir-decrypt-path').val();
     if (!outputDirPath || outputDirPath == '') {
+        enableButton()
         return showAlert('Error', 'Please select a output directory')
     }
 
     const keyFilePath = $('#key-file-path').val();
     if (!keyFilePath || keyFilePath == '') {
+        enableButton()
         return showAlert('Error', 'Please select a key file')
     }
 
@@ -272,11 +297,13 @@ $('#btn-decrypt-key-file').click(() => {
     cryption.decrypt(encryptedFilePath, null, keyFilePath, outputFilePath).then(() => {
         window.shouldBeRSA = false;
         hideLoading();
+        enableButton();
         showAlert('Success', `File is decrypted successfully. Your file: ${outputFilePath}`);
     }).catch(err => {
         console.log(err);
         window.shouldBeRSA = false;
         hideLoading();
+        enableButton();
         showAlert('Error', 'Key file is invalid');
     })
 })
