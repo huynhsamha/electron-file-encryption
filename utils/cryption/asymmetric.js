@@ -94,8 +94,12 @@ function decrypt(filePath, password, keyFilePath, outputPath) {
         else {
             // Decrypt data
             const inputStream = createEncryptedReadStream(filePath);
-            inputStream.on('data', encryptedData => {
-                const plaintext = rsaKey.decrypt(encryptedData);
+            data = Buffer.alloc(0);
+            inputStream.on('data', chunk => {
+                data = Buffer.concat([data, chunk]);
+            });
+            inputStream.on('end', () => {
+                const plaintext = rsaKey.decrypt(data);
                 fs.writeFileSync(outputPath, plaintext);
                 const newHash = hashModule.getHashValue(outputPath);
                 if (hashModule.validateHash(config.hash, newHash)) {
