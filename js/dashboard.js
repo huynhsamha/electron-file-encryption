@@ -76,6 +76,7 @@ $('#raw-file').on('change', function () {
             treeView.addFile(file)
         }
     }
+    $('#raw-file').val('')
 })
 
 $('#out-dir').on('change', function () {
