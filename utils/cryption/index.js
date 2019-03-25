@@ -6,6 +6,7 @@ const asymmetric = require('./asymmetric');
 const symmAlgs = Object.keys(algorithms.symmetric);
 const asymmAlgs = Object.keys(algorithms.asymmetric);
 const { readConfig } = require('./header-handle');
+const { unlink } = require('fs');
 
 function getDemoSymmetricKey(symAlgName, password) {
     const alg = algorithms.symmetric[symAlgName];
@@ -83,7 +84,10 @@ function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
         }
         decryptFunc.apply(null, args)
             .then(resolve)
-            .catch(reject);
+            .catch(err => {
+                unlink(outputPath, () => {});
+                reject(err);
+            });
     });
 
 }
