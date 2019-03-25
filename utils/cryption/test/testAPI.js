@@ -63,28 +63,29 @@ function testDecryptionUseKeyFile() {
         })
 }
 
-// var file = 'short.txt';
+var file = 'long.txt';
 // var file = 'pdf.pdf';
-var file = 'App.jsx';
+// var file = 'App.jsx';
 // var file = 'img.jpg';
 var enc = file + '.enc';
 var key = file + '.key';
 var dec = enc + '.dec';
-var update = (byteCount) => console.log(`Bytes read: ${byteCount}`);
-// var update = null;
+// var update = (byteCount) => console.log(`Bytes read: ${byteCount}`);
+var update = null;
 function testEncryptAndDecrypt(alg) {
     console.log('Encryption algorithm:', alg);
     cryption.encrypt(alg, file, 'my password', enc, key, update)
         .then(() => {
             console.log('File encrypted!');
-            return cryption.decrypt(enc, 'my password', null, dec, update)
+            return cryption.decrypt(enc, 'my password1', null, dec, update)
                 .then(() => {
                     console.log('File decrypted using password!');
-                    return cryption.decrypt(enc, null, key, dec)
-                        .then(() => {
-                            console.log('File decrypted using key file!');
-                        })
+                    // return cryption.decrypt(enc, null, key, dec)
+                    //     .then(() => {
+                    //         console.log('File decrypted using key file!');
+                    //     })
                 })
+                .catch(console.log)
         })
         .catch(err => {
             console.log(err);
@@ -99,8 +100,8 @@ function testEncryptAndDecrypt(alg) {
 // testDecryptionUseKeyFile();
 
 // 
-testEncryptAndDecrypt(cryption.asymmAlgs[0]);
-// testEncryptAndDecrypt(cryption.symmAlgs[0]);
+// testEncryptAndDecrypt(cryption.asymmAlgs[0]);
+testEncryptAndDecrypt(cryption.symmAlgs[0]);
 // testEncryptAndDecrypt(cryption.symmAlgs[1]);
 // testEncryptAndDecrypt(cryption.symmAlgs[2]);
 // testEncryptAndDecrypt(cryption.symmAlgs[3]);

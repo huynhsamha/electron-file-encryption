@@ -70,16 +70,28 @@ function decrypt(filePath, password, keyFilePath, outputPath, updateProgress) {
         .pipe(byteCounterStream)
         .pipe(decipher)
         .pipe(writeStream);
+
+    let err = null;
     
     return new Promise((resolve, reject) => {   
-        decipher.on('error', () => reject('incorrect password'));
+        decipher.on('error', (e) => {
+            err = e;
+            return reject(err);
+        });
+
         writeStream.on('close', () => {
-            const newHash = hashModule.getHashValue(outputPath);
-            if (hashModule.validateHash(config.hash, newHash)) {
-                resolve();
+            if (!err) {
+                // Decryption is successful
+                const newHash = hashModule.getHashValue(outputPath);
+                if (hashModule.validateHash(config.hash, newHash)) {
+                    return resolve();
+                }
+                else {
+                    return reject('hashes not matched');
+                }
             }
             else {
-                reject('incorrect hash, file corrupted');
+                return reject(err);
             }
         });
     });

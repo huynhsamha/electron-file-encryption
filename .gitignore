@@ -2,3 +2,5 @@ node_modules
 
 test/encrypted
 test/decrypted
+utils/cryption/test/*
+!utils/cryption/test/*.js
