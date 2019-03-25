@@ -59,46 +59,49 @@ async function encrypt(filePath, password, outputPath, keyFilePath) {
 }
 
 function decrypt(filePath, password, keyFilePath, outputPath) {
-    // Read RSA private key
-    const rsaKey = new NodeRSA();
-    const config = readConfig(filePath);
-    let incorrectPassword = false;
-
-    // Using key file to get private key
-    if (typeof(keyFilePath) === 'string') {
-        const rsaKeyData = fs.readFileSync(keyFilePath);
-        rsaKey.importKey(rsaKeyData, 'pkcs8-private-pem');
-    }
-    // Using password to decrypt encrypted private key
-    else {
-        const symAlg = algorithms.symmetric['aes-256-cbc'];
-        const symKey = symKeyHandle.recoverKey(password, symAlg.keyLength, config.salt);
-
-        const decipher = crypto.createDecipheriv(symAlg.name, symKey, config.iv);
-        try {
-            const rsaKeyData = Buffer.concat([
-                decipher.update(config.encryptedPrivateKey),
-                decipher.final()
-            ]);
-            rsaKey.importKey(rsaKeyData, 'pkcs8-private-der');
-        }
-        catch (e) {
-            incorrectPassword = true;
-        }
-    }
-    
     return new Promise((resolve, reject) => {
-        if (incorrectPassword) {
-            reject('incorrect password');
+        // Read RSA private key
+        const rsaKey = new NodeRSA();
+        const config = readConfig(filePath);
+
+        // Using key file to get private key
+        if (typeof(keyFilePath) === 'string') {
+            const rsaKeyData = fs.readFileSync(keyFilePath);
+            try {
+                rsaKey.importKey(rsaKeyData, 'pkcs8-private-pem');
+            }
+            catch (e) {
+                console.log(e);
+                return reject('not a private key file');
+            }
+            
         }
+        // Using password to decrypt encrypted private key
         else {
-            // Decrypt data
-            const inputStream = createEncryptedReadStream(filePath);
-            data = Buffer.alloc(0);
-            inputStream.on('data', chunk => {
-                data = Buffer.concat([data, chunk]);
-            });
-            inputStream.on('end', () => {
+            const symAlg = algorithms.symmetric['aes-256-cbc'];
+            const symKey = symKeyHandle.recoverKey(password, symAlg.keyLength, config.salt);
+
+            const decipher = crypto.createDecipheriv(symAlg.name, symKey, config.iv);
+            try {
+                const rsaKeyData = Buffer.concat([
+                    decipher.update(config.encryptedPrivateKey),
+                    decipher.final()
+                ]);
+                rsaKey.importKey(rsaKeyData, 'pkcs8-private-der');
+            }
+            catch (e) {
+                return reject('incorrect password');
+            }
+        }
+    
+        // Decrypt data
+        const inputStream = createEncryptedReadStream(filePath);
+        data = Buffer.alloc(0);
+        inputStream.on('data', chunk => {
+            data = Buffer.concat([data, chunk]);
+        });
+        inputStream.on('end', () => {
+            try {
                 const plaintext = rsaKey.decrypt(data);
                 fs.writeFileSync(outputPath, plaintext);
                 const newHash = hashModule.getHashValue(outputPath);
@@ -108,8 +111,11 @@ function decrypt(filePath, password, keyFilePath, outputPath) {
                 else {
                     reject('incorrect hash, file corrupted');
                 }
-            });
-        }
+            }
+            catch (e) {
+                return reject('incorrect private key');
+            }
+        });
 
     });
 }

@@ -3,9 +3,10 @@ const cryption = require('../index');
 var file = 'setup.exe';
 
 
-var file = '/dev/shm/ramdisk/' + file;
+var file = 'short.txt';
 var enc = file + '.enc';
-var key = file + '.key';
+// var key = file + '.key';
+var key =  'long.txt.key';
 var dec = enc + '.dec';
 
 // var alg = 'aes-256-cbc';
