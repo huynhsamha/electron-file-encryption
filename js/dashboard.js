@@ -10,6 +10,8 @@ const async = require('async');
 const $ = require('jquery');
 window.$ = window.jQuery = window.jquery = $;
 
+const faqs = require('../db/faq.json');
+
 /**
  * Init Semantic UI
  */
@@ -307,6 +309,24 @@ $('#btnRemoveAllFiles').click(() => {
         treeView.removeAll();
     });
 })
+
+function renderSingleFAQ({Q, A}) {
+    return `
+    <div class="title">
+        <i class="dropdown icon"></i> ${Q}
+    </div>
+    <div class="content">
+        <p class="transition hidden">${A}</p>
+    </div>`
+}
+
+initFAQ();
+
+function initFAQ() {
+    const faqHTML = faqs.map(u => renderSingleFAQ(u)).join('\n');
+    $('#list-faq').html($(faqHTML));
+    $('#list-faq').accordion();
+}
 
 function showAlert(title = 'Alert', message = '') {
     $('#alert-title').text(title);
