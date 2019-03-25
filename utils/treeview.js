@@ -35,14 +35,24 @@ class TreeView {
         const itemType = isFolder ? 'folder' : 'file alternate'
         const color = isFolder ? 'blue' : 'black'
         return `
-            <div class="item" id="${item.id}">
+            <div class="item treeview-item" id="${item.id}">
                 <i class="${itemType} ${color} icon"></i>
                 <div class="content">
                     <div class="header">${item.name}</div>
                     <div class="description">${humanFileSize(item.size)}</div>
-                    ${isFolder ? '<div class="list"></div>' : ''}
+                    ${isFolder ? '<div class="ui list middle aligned"></div>' : ''}
                 </div>
+                <!--
+                <button class="circular ui icon button mini btn-right">
+                    <i class="icon trash alternate outline"></i>
+                </button>
+                -->
             </div>`
+    }
+
+    removeAll() {
+        this.files = [];
+        $(this.id).html('');
     }
 
     updateSizeOnView($item, newItem) {
@@ -83,7 +93,7 @@ class TreeView {
                         const subFolder = new Folder(file)
                         $this.createFolder(subFolder, (err, $subFolder, subFolder) => {
                             if (err) return cb1(err);
-                            folder.size += subFolder.size; 
+                            folder.size += subFolder.size;
                             // update size of master folder with size of sub-folder
                             $folder.find('> .content > .list').append($subFolder)
                             cb1();

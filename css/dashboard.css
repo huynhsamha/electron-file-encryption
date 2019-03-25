@@ -43,3 +43,12 @@
     max-height: 80vh;
     overflow: auto;
 }
+
+.treeview-item {
+    position: relative;
+}
+.treeview-item .btn-right {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+}

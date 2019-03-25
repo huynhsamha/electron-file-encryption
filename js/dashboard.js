@@ -299,6 +299,15 @@ $('#btnViewKey').click(() => {
     showAlert('Encryption Key', cryption.getDemoSymmetricKey(algo, password))
 })
 
+$('#btnRemoveAllFiles').click(() => {
+    if (treeView.files.length == 0) {
+        return showAlert('Notification', 'No any files selected. Please choose some files to encrypt');
+    }
+    showConfirm('Warning', 'Are you sure to remove all files selected?', () => {
+        treeView.removeAll();
+    });
+})
+
 function showAlert(title = 'Alert', message = '') {
     $('#alert-title').text(title);
     $('#alert-message').text(message);
