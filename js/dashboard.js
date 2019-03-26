@@ -162,7 +162,7 @@ $('#btnEncrypt').click(() => {
     console.log(password);
     if (!password || password == '' || password.length < 5) {
         enableButton()
-        return showAlert('Error', 'Passphrase is at least 5 charactersssss' + biggestSize)
+        return showAlert('Error', 'Passphrase is at least 5 characters' + biggestSize)
     }
 
     const files = treeView.files;
