@@ -1,6 +1,7 @@
 node_modules
 
-test/encrypted
-test/decrypted
+test/*
+!test/*/README.md
+
 utils/cryption/test/*
 !utils/cryption/test/*.js
