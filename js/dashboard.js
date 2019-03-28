@@ -52,7 +52,11 @@ $progressBar.progress({
 $('#btn-logout').click(() => {
     showConfirm('Warning', 'Do you want to logout?', logout);
 })
-
+/**
+ * The biggestSize of file, this will affect to the RSA
+ * if biggestSize is too large, show warning
+ */
+let biggestSize = 0;
 $('#raw-file').on('change', function () {
     const files = this.files;
     console.log(files);
@@ -74,6 +78,7 @@ $('#raw-file').on('change', function () {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             treeView.addFile(file)
+            file.size > biggestSize ? biggestSize = file.size : biggestSize;
         }
     }
     $('#raw-file').val('')
@@ -171,6 +176,14 @@ $('#btnEncrypt').click(() => {
     if (!outputFilePath || outputFilePath == '') {
         enableButton()
         return showAlert('Error', 'Please select a output directory')
+    }
+
+    /**
+     * if size of file is too large for the RSA, the warning will be shown
+     */
+    if (biggestSize > 0 && algo == 'rsa'){
+        enableButton()
+        return showAlert("Warning!", 'Your file is too big for RSA (>100MB). It will be very time consuming to complete ');
     }
 
     // $progressBar.show();
